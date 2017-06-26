@@ -764,7 +764,7 @@ extern __gshared rl_icppfunc_t *rl_filename_stat_hook;
 extern __gshared rl_dequote_func_t *rl_filename_rewrite_hook;
 
 /* Backwards compatibility with previous versions of readline. */
-#define rl_symbolic_link_hook rl_directory_completion_hook
+alias rl_symbolic_link_hook  = rl_directory_completion_hook;
 
 /* If non-zero, then this is the address of a function to call when
    completing a word would normally display the list of possible matches.
@@ -905,9 +905,20 @@ enum RL_STATE_REDISPLAYING	= 0x0800000	;/* updating terminal display */
 
 enum RL_STATE_DONE		= 0x1000000	;/* done; accepted line */
 
-auto RL_SETSTATE = (x => rl_readline_state |= x);
-auto RL_UNSETSTATE(x => rl_readline_state &= ~x);
-auto RL_ISSTATE(x => rl_readline_state & x );
+int RL_SETSTATE(int x)
+{
+    return rl_readline_state |= x;
+}
+
+int RL_UNSETSTATE(int x)
+{
+    return rl_readline_state &= ~x; 
+}
+
+auto RL_ISSTATE(int x)
+{
+    return rl_readline_state & x; 
+}
 
 struct readline_state 
 {
@@ -933,7 +944,7 @@ struct readline_state
   FILE *inf;
   FILE *outf;
   int pendingin;
-  char *macro;
+  char *macro_;
 
   /* signal state */
   int catchsigs;
@@ -946,7 +957,7 @@ struct readline_state
   /* options state */
 
   /* reserved for future expansion, so the struct size doesn't change */
-  char reserved[64];
+  char[64] reserved;
 }
 
 int rl_save_state(readline_state *);
