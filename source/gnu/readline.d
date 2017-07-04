@@ -666,11 +666,11 @@ extern __gshared int rl_change_environment;
 /* Pointer to the generator function for completion_matches ().
    NULL means to use rl_filename_completion_function (), the default
    filename completer. */
-extern __gshared rl_compentry_func_t *rl_completion_entry_function;
+extern __gshared rl_compentry_func_t rl_completion_entry_function;
 
 /* Optional generator for menu completion.  Default is
    rl_completion_entry_function (rl_filename_completion_function). */
- extern __gshared rl_compentry_func_t *rl_menu_completion_entry_function;
+ extern __gshared rl_compentry_func_t rl_menu_completion_entry_function;
 
 /* If rl_ignore_some_completions_function is non-NULL it is the address
    of a function to call after all of the possible matches have been
@@ -678,7 +678,7 @@ extern __gshared rl_compentry_func_t *rl_completion_entry_function;
    The function is called with one argument; a NULL terminated array
    of (char *).  If your function removes any of the elements, they
    must be free()'ed. */
-extern __gshared rl_compignore_func_t *rl_ignore_some_completions_function;
+extern __gshared rl_compignore_func_t rl_ignore_some_completions_function;
 
 /* Pointer to alternative function to create matches.
    Function is called with TEXT, START, and END.
@@ -687,7 +687,7 @@ extern __gshared rl_compignore_func_t *rl_ignore_some_completions_function;
    If this function exists and returns NULL then call the value of
    rl_completion_entry_function to try to match, otherwise use the
    array of strings returned. */
-extern __gshared rl_completion_func_t *rl_attempted_completion_function;
+extern __gshared rl_completion_func_t rl_attempted_completion_function;
 
 /* The basic list of characters that signal a break between words for the
    completer routine.  The initial contents of this variable is what
@@ -702,7 +702,7 @@ extern __gshared /*const*/ char *rl_completer_word_break_characters;
 /* Hook function to allow an application to set the completion word
    break characters before readline breaks up the line.  Allows
    position-dependent word break characters. */
-extern __gshared rl_cpvfunc_t *rl_completion_word_break_hook;
+extern __gshared rl_cpvfunc_t rl_completion_word_break_hook;
 
 /* List of characters which can be used to quote a substring of the line.
    Completion occurs on the entire substring, and within the substring   
@@ -730,7 +730,7 @@ extern __gshared const(char)* rl_special_prefixes;
    the directory name pointer passed as an argument.  If the directory
    completion hook returns 0, it should not modify the directory name
    pointer passed as an argument. */
-extern __gshared rl_icppfunc_t *rl_directory_completion_hook;
+extern __gshared rl_icppfunc_t rl_directory_completion_hook;
 
 /* If non-zero, this is the address of a function to call when completing
    a directory name.  This function takes the address of the directory name
@@ -743,14 +743,14 @@ extern __gshared rl_icppfunc_t *rl_directory_completion_hook;
 
    I'm not happy with how this works yet, so it's undocumented.  I'm trying
    it in bash to see how well it goes. */
-extern __gshared rl_icppfunc_t *rl_directory_rewrite_hook;
+extern __gshared rl_icppfunc_t rl_directory_rewrite_hook;
 
 /* If non-zero, this is the address of a function for the completer to call
    before deciding which character to append to a completed name.  It should
    modify the directory name passed as an argument if appropriate, and return
    non-zero if it modifies the name.  This should not worry about dequoting
    the filename; that has already happened by the time it gets here. */
-extern __gshared rl_icppfunc_t *rl_filename_stat_hook;
+extern __gshared rl_icppfunc_t rl_filename_stat_hook;
 
 /* If non-zero, this is the address of a function to call when reading
    directory entries from the filesystem for completion and comparing
@@ -761,7 +761,7 @@ extern __gshared rl_icppfunc_t *rl_filename_stat_hook;
    keyboard.  The returned value is what is added to the list of
    matches.  The second argument is the length of the filename to be
    converted. */
-extern __gshared rl_dequote_func_t *rl_filename_rewrite_hook;
+extern __gshared rl_dequote_func_t rl_filename_rewrite_hook;
 
 /* Backwards compatibility with previous versions of readline. */
 alias rl_symbolic_link_hook  = rl_directory_completion_hook;
@@ -773,7 +773,7 @@ alias rl_symbolic_link_hook  = rl_directory_completion_hook;
    where MATCHES is the array of strings that matched, NUM_MATCHES is the
    number of strings in that array, and MAX_LENGTH is the length of the
    longest string in that array. */
-extern __gshared rl_compdisp_func_t *rl_completion_display_matches_hook;
+extern __gshared rl_compdisp_func_t rl_completion_display_matches_hook;
 
 /* Non-zero means that the results of the matches are to be treated
    as filenames.  This is ALWAYS zero on entry, and can only be changed
@@ -791,17 +791,17 @@ extern __gshared int rl_filename_quoting_desired;
    Called with the text to quote, the type of match found (single or multiple)
    and a pointer to the quoting character to be used, which the function can
    reset if desired. */
-extern __gshared rl_quote_func_t *rl_filename_quoting_function;
+extern __gshared rl_quote_func_t rl_filename_quoting_function;
 
 /* Function to call to remove quoting characters from a filename.  Called
    before completion is attempted, so the embedded quotes do not interfere
    with matching names in the file system. */
-extern __gshared rl_dequote_func_t *rl_filename_dequoting_function;
+extern __gshared rl_dequote_func_t rl_filename_dequoting_function;
 
 /* Function to call to decide whether or not a word break character is
    quoted.  If a character is quoted, it does not break words for the
    completer. */
-extern __gshared rl_linebuf_func_t *rl_char_is_quoted_p;
+extern __gshared rl_linebuf_func_t rl_char_is_quoted_p;
 
 /* Non-zero means to suppress normal filename completion after the
    user-specified completion function has been called. */
