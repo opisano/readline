@@ -123,7 +123,7 @@ void rl_set_keymap(Keymap);
     struct _funmap 
     {
         const(char)* name;
-        rl_command_func_t* function_;
+        rl_command_func_t function_;
     } 
     alias FUNMAP = _funmap;
 
@@ -270,7 +270,7 @@ void rl_set_keymap(Keymap);
     int rl_insert_close(int, int);
 
     /* Not available unless READLINE_CALLBACKS is defined. */
-    void rl_callback_handler_install(const(char)*, rl_vcpfunc_t*);
+    void rl_callback_handler_install(const(char)*, rl_vcpfunc_t);
     void rl_callback_read_char();
     void rl_callback_handler_remove();
 
@@ -350,26 +350,26 @@ void rl_set_keymap(Keymap);
     int rl_discard_argument();
 
     /* Utility functions to bind keys to readline commands. */
-    int rl_add_defun (const(char)*, rl_command_func_t *, int);
-    int rl_bind_key (int, rl_command_func_t *);
-    int rl_bind_key_in_map (int, rl_command_func_t *, Keymap);
+    int rl_add_defun (const(char)*, rl_command_func_t, int);
+    int rl_bind_key (int, rl_command_func_t);
+    int rl_bind_key_in_map (int, rl_command_func_t, Keymap);
     int rl_unbind_key (int);
     int rl_unbind_key_in_map (int, Keymap);
-    int rl_bind_key_if_unbound (int, rl_command_func_t *);
-    int rl_bind_key_if_unbound_in_map (int, rl_command_func_t *, Keymap);
-    int rl_unbind_function_in_map (rl_command_func_t *, Keymap);
+    int rl_bind_key_if_unbound (int, rl_command_func_t);
+    int rl_bind_key_if_unbound_in_map (int, rl_command_func_t, Keymap);
+    int rl_unbind_function_in_map (rl_command_func_t, Keymap);
     int rl_unbind_command_in_map (const(char)*, Keymap);
-    int rl_bind_keyseq (const(char)**, rl_command_func_t *);
-    int rl_bind_keyseq_in_map (const(char)**, rl_command_func_t *, Keymap);
-    int rl_bind_keyseq_if_unbound (const(char)**, rl_command_func_t *);
-    int rl_bind_keyseq_if_unbound_in_map (const(char)**, rl_command_func_t *, Keymap);
+    int rl_bind_keyseq (const(char)**, rl_command_func_t);
+    int rl_bind_keyseq_in_map (const(char)**, rl_command_func_t, Keymap);
+    int rl_bind_keyseq_if_unbound (const(char)**, rl_command_func_t);
+    int rl_bind_keyseq_if_unbound_in_map (const(char)**, rl_command_func_t, Keymap);
     int rl_generic_bind (int, const(char)**, char *, Keymap);
 
     char *rl_variable_value (const(char)**);
     int rl_variable_bind (const(char)**, const(char)**);
 
     /* Backwards compatibility, use rl_bind_keyseq_in_map instead. */
-    int rl_set_key (const(char)**, rl_command_func_t *, Keymap);
+    int rl_set_key (const(char)**, rl_command_func_t, Keymap);
 
     /* Backwards compatibility, use rl_generic_bind instead. */
     int rl_macro_bind (const(char)**, const(char)**, Keymap);
@@ -378,12 +378,12 @@ void rl_set_keymap(Keymap);
     int rl_translate_keyseq (const(char)**, char *, int *);
     char *rl_untranslate_keyseq (int);
 
-    rl_command_func_t *rl_named_function (const(char)**);
-    rl_command_func_t *rl_function_of_keyseq (const(char)**, Keymap, int *);
+    rl_command_func_t rl_named_function (const(char)**);
+    rl_command_func_t rl_function_of_keyseq (const(char)**, Keymap, int *);
 
     void rl_list_funmap_names ();
-    char **rl_invoking_keyseqs_in_map (rl_command_func_t *, Keymap);
-    char **rl_invoking_keyseqs (rl_command_func_t *);
+    char **rl_invoking_keyseqs_in_map (rl_command_func_t, Keymap);
+    char **rl_invoking_keyseqs (rl_command_func_t);
      
     void rl_function_dumper (int);
     void rl_macro_dumper (int);
@@ -408,7 +408,7 @@ void rl_set_keymap(Keymap);
     char *rl_get_keymap_name_from_edit_mode ();
 
     /* Functions for manipulating the funmap, which maps command names to functions. */
-    int rl_add_funmap_entry (const(char)**, rl_command_func_t *);
+    int rl_add_funmap_entry (const(char)**, rl_command_func_t);
     const(char)***rl_funmap_names ();
     /* Undocumented, only used internally -- there is only one funmap, and this
        function may be called only once. */
@@ -504,11 +504,11 @@ void rl_set_keymap(Keymap);
     int rl_complete_internal (int);
     void rl_display_match_list (char **, int, int);
 
-    char **rl_completion_matches (const(char)**, rl_compentry_func_t *);
+    char **rl_completion_matches (const(char)**, rl_compentry_func_t);
     char *rl_username_completion_function (const(char)**, int);
     char *rl_filename_completion_function (const(char)**, int);
 
-    int rl_completion_mode (rl_command_func_t *);
+    int rl_completion_mode (rl_command_func_t);
 
 
 /* **************************************************************** */
@@ -577,7 +577,7 @@ extern __gshared int rl_explicit_arg;
 extern __gshared int rl_numeric_arg;
 
 /* The address of the last command function Readline executed. */
-extern __gshared rl_command_func_t *rl_last_func;
+extern __gshared rl_command_func_t rl_last_func;
 
 /* The name of the terminal to use. */
 extern __gshared const(char)* rl_terminal_name;
@@ -593,32 +593,32 @@ extern __gshared int rl_prefer_env_winsize;
 
 /* If non-zero, then this is the address of a function to call just
    before readline_internal () prints the first prompt. */
-extern __gshared rl_hook_func_t *rl_startup_hook;
+extern __gshared rl_hook_func_t rl_startup_hook;
 
 /* If non-zero, this is the address of a function to call just before
    readline_internal_setup () returns and readline_internal starts
    reading input characters. */
-extern __gshared rl_hook_func_t *rl_pre_input_hook;
+extern __gshared rl_hook_func_t rl_pre_input_hook;
       
 /* The address of a function to call periodically while Readline is
    awaiting character input, or NULL, for no event handling. */
-extern __gshared rl_hook_func_t *rl_event_hook;
+extern __gshared rl_hook_func_t rl_event_hook;
 
 /* The address of a function to call if a read is interrupted by a signal. */
-extern __gshared rl_hook_func_t *rl_signal_event_hook;
+extern __gshared rl_hook_func_t rl_signal_event_hook;
 
 /* The address of a function to call if Readline needs to know whether or not
    there is data available from the current input source. */
-extern __gshared rl_hook_func_t *rl_input_available_hook;
+extern __gshared rl_hook_func_t rl_input_available_hook;
 
 /* The address of the function to call to fetch a character from the current
    Readline input stream */
-extern __gshared rl_getc_func_t *rl_getc_function;
+extern __gshared rl_getc_func_t rl_getc_function;
 
-extern __gshared rl_voidfunc_t *rl_redisplay_function;
+extern __gshared rl_voidfunc_t rl_redisplay_function;
 
-extern __gshared rl_vintfunc_t *rl_prep_term_function;
-extern __gshared rl_voidfunc_t *rl_deprep_term_function;
+extern __gshared rl_vintfunc_t rl_prep_term_function;
+extern __gshared rl_voidfunc_t rl_deprep_term_function;
 
 /* Dispatch variables. */
 extern __gshared Keymap rl_executing_keymap;
@@ -937,7 +937,7 @@ struct readline_state
   Keymap kmap;
 
   /* input state */
-  rl_command_func_t *lastfunc;
+  rl_command_func_t lastfunc;
   int insmode;
   int edmode;
   int kseqlen;
