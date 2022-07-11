@@ -399,7 +399,7 @@ void rl_set_keymap(Keymap);
     void rl_discard_keymap (Keymap);
     void rl_free_keymap (Keymap);
 
-    Keymap rl_get_keymap_by_name (const(char)**);
+    Keymap rl_get_keymap_by_name (const(char)*);
     char *rl_get_keymap_name (Keymap);
     void rl_set_keymap (Keymap);
     Keymap rl_get_keymap ();
